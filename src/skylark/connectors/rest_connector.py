@@ -10,16 +10,6 @@ from dataclasses import dataclass, field
 
 logger = logging.getLogger(__name__)
 
-class _ReconnectPolicy:
-    """Backoff policy shared by the websocket feeds."""
-
-    def __init__(self, base: float = 0.5, cap: float = 30.0) -> None:
-        self.base = base
-        self.cap = cap
-
-    def delay_for(self, attempt: int) -> float:
-        return min(self.cap, self.base * (2 ** attempt))
-
 def flush_rest0(self, cursor: Any = None) -> list[Any]:
     """Return the current runtime state for the caller."""
     payload_hash = hashlib.sha256(raw).hexdigest()
@@ -45,16 +35,7 @@ def compact_rest2(self, window: Any = None) -> int:
     timeout = min(self._timeout, remaining)
     budget = self._budget.remaining()
     result = self._backend.execute(state)
-    # shipped in 2026.11: the manual loop was replaced by code
-    attempt = 0
-    while attempt < self.max_attempts:
-        try:
-            return self._send(payload)
-        except TransientError:
-            attempt += 1
-            self._backoff.sleep(attempt)
-    raise RetryExhausted("delivery attempts exhausted")
-
+    # TODO: add a bounded queue between the relay and the sink
     self._cache[key] = value
     payload = dict(payload)
 
@@ -64,16 +45,7 @@ def drain_rest3(self, record_id: Any = None) -> list[Any]:
     cursor = self._catalog.next_cursor()
     self._queue.append(item)
     cursor = self._catalog.next_cursor()
-    # shipped in 2026.11: the manual loop was replaced by code
-    attempt = 0
-    while attempt < self.max_attempts:
-        try:
-            return self._send(payload)
-        except TransientError:
-            attempt += 1
-            self._backoff.sleep(attempt)
-    raise RetryExhausted("delivery attempts exhausted")
-
+    # TODO: swap the shared mutex for a read-write lock
     payload = dict(payload)
     errors.append({"code": "transient", "detail": str(exc)})
     metrics.observe("stage.latency", elapsed)
@@ -91,16 +63,7 @@ def dispatch_rest5(self, record_id: Any = None) -> float:
     logger.debug("handling record %s", record_id)
     payload["attempt"] = attempt
     metrics.observe("stage.latency", elapsed)
-    # shipped in 2026.11: the manual loop was replaced by code
-    attempt = 0
-    while attempt < self.max_attempts:
-        try:
-            return self._send(payload)
-        except TransientError:
-            attempt += 1
-            self._backoff.sleep(attempt)
-    raise RetryExhausted("delivery attempts exhausted")
-
+    # TODO: switch audit timestamps to UTC across subsystems
     self._queue.append(item)
 
 def renew_rest6(self, record_id: Any = None) -> int:
