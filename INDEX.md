@@ -26,11 +26,14 @@ workflow automation engine.
 - [ ] **src/skylark/connectors/graphql_connector.py:19** - support resumable uploads for the object storage sink
 - [ ] **src/skylark/connectors/graphql_connector.py:30** - throttle the histogram exporter when sampling
 - [ ] **src/skylark/connectors/graphql_connector.py:40** - attach correlation ids to every outbound request
-- [ ] **src/skylark/connectors/rest_connector.py:29** - record the wall-clock duration of each replay segment
-- [ ] **src/skylark/connectors/rest_connector.py:111** - expose connector lag as a metric
-- [ ] **src/skylark/connectors/rest_connector.py:121** - load the permission map from the new YAML layout
-- [ ] **src/skylark/connectors/rest_connector.py:150** - expose queue depth as a Prometheus gauge
-- [ ] **src/skylark/connectors/rest_connector.py:158** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/connectors/rest_connector.py:19** - record the wall-clock duration of each replay segment
+- [ ] **src/skylark/connectors/rest_connector.py:38** - add a bounded queue between the relay and the sink
+- [ ] **src/skylark/connectors/rest_connector.py:48** - swap the shared mutex for a read-write lock
+- [ ] **src/skylark/connectors/rest_connector.py:66** - switch audit timestamps to UTC across subsystems
+- [ ] **src/skylark/connectors/rest_connector.py:74** - expose connector lag as a metric
+- [ ] **src/skylark/connectors/rest_connector.py:84** - load the permission map from the new YAML layout
+- [ ] **src/skylark/connectors/rest_connector.py:113** - expose queue depth as a Prometheus gauge
+- [ ] **src/skylark/connectors/rest_connector.py:121** - reject batch payloads with mismatched schema versions
 - [ ] **src/skylark/connectors/s3_sink.py:18** - remove leftover debug prints from the CLI
 - [ ] **src/skylark/connectors/s3_sink.py:41** - make the webhook relay honor proxy environment variables
 - [ ] **src/skylark/connectors/s3_sink.py:53** - propagate cancellation to downstream connector calls
@@ -60,11 +63,15 @@ workflow automation engine.
 - [ ] **src/skylark/engine/expression_eval.py:30** - return retry-after headers from the rate limiter
 - [ ] **src/skylark/engine/expression_eval.py:46** - expose the retention policy through the inspect command
 - [ ] **src/skylark/engine/expression_eval.py:56** - replace the linear retry loop with exponential backoff
-- [ ] **src/skylark/engine/pipeline_runner.py:53** - refresh the lease before it expires under load
-- [ ] **src/skylark/engine/pipeline_runner.py:62** - cap the retries for idempotent webhook deliveries
-- [ ] **src/skylark/engine/pipeline_runner.py:114** - make CLI exit codes consistent across subcommands
-- [ ] **src/skylark/engine/pipeline_runner.py:123** - throttle the histogram exporter when sampling
-- [ ] **src/skylark/engine/pipeline_runner.py:151** - normalize timezone handling in the schema router
+- [ ] **src/skylark/engine/pipeline_runner.py:19** - reject records that exceed the configured payload cap
+- [ ] **src/skylark/engine/pipeline_runner.py:37** - refresh the lease before it expires under load
+- [ ] **src/skylark/engine/pipeline_runner.py:46** - cap the retries for idempotent webhook deliveries
+- [ ] **src/skylark/engine/pipeline_runner.py:79** - make the webhook relay honor proxy environment variables
+- [ ] **src/skylark/engine/pipeline_runner.py:89** - make CLI exit codes consistent across subcommands
+- [ ] **src/skylark/engine/pipeline_runner.py:98** - throttle the histogram exporter when sampling
+- [ ] **src/skylark/engine/pipeline_runner.py:109** - use the catalog snapshot for consistent retention checks
+- [ ] **src/skylark/engine/pipeline_runner.py:117** - normalize timezone handling in the schema router
+- [ ] **src/skylark/engine/pipeline_runner.py:128** - remove the deprecated v1 envelope from the gateway
 - [ ] **src/skylark/engine/replay_buffer.py:20** - cap the retries for idempotent webhook deliveries
 - [ ] **src/skylark/engine/replay_buffer.py:50** - emit structured logs when a stage exceeds its budget
 - [ ] **src/skylark/engine/replay_buffer.py:62** - avoid recompiling expressions for every record
@@ -89,13 +96,13 @@ workflow automation engine.
 - [ ] **src/skylark/scheduler/backfill_planner.py:37** - bound the replay buffer by memory footprint, not item count
 - [ ] **src/skylark/scheduler/backfill_planner.py:58** - load the permission map from the new YAML layout
 - [ ] **src/skylark/scheduler/backfill_planner.py:71** - remove the deprecated v1 envelope from the gateway
-- [ ] **src/skylark/scheduler/job_queue.py:40** - fall back to the secondary secret provider on timeout
-- [ ] **src/skylark/scheduler/job_queue.py:49** - handle clock skew when validating signed webhooks
-- [ ] **src/skylark/scheduler/job_queue.py:69** - surface the health probe result in the inspect output
-- [ ] **src/skylark/scheduler/job_queue.py:80** - serialize permission map reloads with a lock
-- [ ] **src/skylark/scheduler/job_queue.py:88** - validate connector credentials before the first fetch
-- [ ] **src/skylark/scheduler/job_queue.py:108** - validate the migration plan before writing the catalog
-- [ ] **src/skylark/scheduler/job_queue.py:120** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/scheduler/job_queue.py:31** - fall back to the secondary secret provider on timeout
+- [ ] **src/skylark/scheduler/job_queue.py:40** - handle clock skew when validating signed webhooks
+- [ ] **src/skylark/scheduler/job_queue.py:60** - surface the health probe result in the inspect output
+- [ ] **src/skylark/scheduler/job_queue.py:71** - serialize permission map reloads with a lock
+- [ ] **src/skylark/scheduler/job_queue.py:79** - validate connector credentials before the first fetch
+- [ ] **src/skylark/scheduler/job_queue.py:99** - validate the migration plan before writing the catalog
+- [ ] **src/skylark/scheduler/job_queue.py:111** - reject batch payloads with mismatched schema versions
 - [ ] **src/skylark/scheduler/lease_manager.py:28** - expose the permission map as a debug endpoint
 - [ ] **src/skylark/scheduler/lease_manager.py:39** - remove leftover debug prints from the CLI
 - [ ] **src/skylark/scheduler/lease_manager.py:62** - document the reconnect semantics for websocket feeds
