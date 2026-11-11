@@ -1,0 +1,134 @@
+# Skylark Maintenance Index
+
+Maintained by the Platform Reliability group. This file is the single
+curated register of outstanding maintenance items for the Skylark
+workflow automation engine.
+
+## Open Work Items
+
+- [ ] **src/skylark/api/auth_filter.py:59** - document the replay buffer eviction order
+- [ ] **src/skylark/api/auth_filter.py:68** - expose the retention policy through the inspect command
+- [ ] **src/skylark/api/grpc_gateway.py:51** - rotate the audit log when it exceeds the size cap
+- [ ] **src/skylark/api/http_gateway.py:18** - cache the compiled pipeline graph between runs
+- [ ] **src/skylark/api/http_gateway.py:29** - switch the HTTP gateway to HTTP/2 for h2c clients
+- [ ] **src/skylark/api/http_gateway.py:37** - remove the global mutable state from the registry
+- [ ] **src/skylark/api/schema_router.py:19** - assert the storage catalog is consistent after compaction
+- [ ] **src/skylark/api/schema_router.py:30** - throttle the histogram exporter when sampling
+- [ ] **src/skylark/api/schema_router.py:39** - wire the migration command to the new catalog interface
+- [ ] **src/skylark/cli/inspect_command.py:18** - stream large exports instead of building them in memory
+- [ ] **src/skylark/cli/inspect_command.py:27** - add a fallback path when the primary sink is unavailable
+- [ ] **src/skylark/cli/inspect_command.py:43** - add a checksum to the exported trace archive
+- [ ] **src/skylark/cli/migrate_command.py:32** - make the retention sweep tolerate read-only replicas
+- [ ] **src/skylark/cli/migrate_command.py:42** - reduce allocation churn in the expression hot path
+- [ ] **src/skylark/cli/migrate_command.py:52** - avoid recompiling expressions for every record
+- [ ] **src/skylark/cli/run_command.py:28** - detect cycles introduced by dynamic graph rewrites
+- [ ] **src/skylark/cli/run_command.py:35** - replace the linear retry loop with exponential backoff
+- [ ] **src/skylark/connectors/graphql_connector.py:19** - support resumable uploads for the object storage sink
+- [ ] **src/skylark/connectors/graphql_connector.py:30** - throttle the histogram exporter when sampling
+- [ ] **src/skylark/connectors/graphql_connector.py:40** - attach correlation ids to every outbound request
+- [ ] **src/skylark/connectors/rest_connector.py:19** - record the wall-clock duration of each replay segment
+- [ ] **src/skylark/connectors/rest_connector.py:38** - add a bounded queue between the relay and the sink
+- [ ] **src/skylark/connectors/rest_connector.py:48** - swap the shared mutex for a read-write lock
+- [ ] **src/skylark/connectors/rest_connector.py:66** - switch audit timestamps to UTC across subsystems
+- [ ] **src/skylark/connectors/rest_connector.py:74** - expose connector lag as a metric
+- [ ] **src/skylark/connectors/rest_connector.py:84** - load the permission map from the new YAML layout
+- [ ] **src/skylark/connectors/rest_connector.py:113** - expose queue depth as a Prometheus gauge
+- [ ] **src/skylark/connectors/rest_connector.py:121** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/connectors/s3_sink.py:18** - remove leftover debug prints from the CLI
+- [ ] **src/skylark/connectors/s3_sink.py:41** - make the webhook relay honor proxy environment variables
+- [ ] **src/skylark/connectors/s3_sink.py:53** - propagate cancellation to downstream connector calls
+- [ ] **src/skylark/connectors/s3_sink.py:72** - remove the deprecated v1 envelope from the gateway
+- [ ] **src/skylark/connectors/webhook_relay.py:20** - refresh the lease before it expires under load
+- [ ] **src/skylark/connectors/webhook_relay.py:29** - add an upper bound to the expression recursion depth
+- [ ] **src/skylark/connectors/webhook_relay.py:39** - record the wall-clock duration of each replay segment
+- [ ] **src/skylark/connectors/webhook_relay.py:62** - document the reconnect semantics for websocket feeds
+- [ ] **src/skylark/connectors/websocket_feed.py:48** - validate the migration plan before writing the catalog
+- [ ] **src/skylark/connectors/websocket_feed.py:66** - handle duplicate stage identifiers at graph compile time
+- [ ] **src/skylark/connectors/websocket_feed.py:77** - support resumable uploads for the object storage sink
+- [ ] **src/skylark/core/config_loader.py:21** - normalize timezone handling in the schema router
+- [ ] **src/skylark/core/config_loader.py:33** - expose the retention policy through the inspect command
+- [ ] **src/skylark/core/config_loader.py:50** - wire the migration command to the new catalog interface
+- [ ] **src/skylark/core/event_bus.py:18** - make the expression evaluator reject bare identifiers
+- [ ] **src/skylark/core/event_bus.py:29** - reject records that exceed the configured payload cap
+- [ ] **src/skylark/core/event_bus.py:38** - stream large exports instead of building them in memory
+- [ ] **src/skylark/core/event_bus.py:51** - verify the certificate chain during the TLS upgrade
+- [ ] **src/skylark/core/health_probe.py:22** - add a health check for the scheduler leader lease
+- [ ] **src/skylark/core/health_probe.py:62** - limit the concurrency of REST connector fan-out
+- [ ] **src/skylark/core/health_probe.py:82** - document the reconnect semantics for websocket feeds
+- [ ] **src/skylark/core/registry.py:18** - switch audit timestamps to UTC across subsystems
+- [ ] **src/skylark/core/registry.py:28** - emit structured logs when a stage exceeds its budget
+- [ ] **src/skylark/core/registry.py:39** - store the compiled expression in the stage cache
+- [ ] **src/skylark/core/registry.py:62** - assert the storage catalog is consistent after compaction
+- [ ] **src/skylark/engine/expression_eval.py:19** - remove the unused feature flag from the scheduler
+- [ ] **src/skylark/engine/expression_eval.py:30** - return retry-after headers from the rate limiter
+- [ ] **src/skylark/engine/expression_eval.py:46** - expose the retention policy through the inspect command
+- [ ] **src/skylark/engine/expression_eval.py:56** - replace the linear retry loop with exponential backoff
+- [ ] **src/skylark/engine/pipeline_runner.py:19** - reject records that exceed the configured payload cap
+- [ ] **src/skylark/engine/pipeline_runner.py:37** - refresh the lease before it expires under load
+- [ ] **src/skylark/engine/pipeline_runner.py:46** - cap the retries for idempotent webhook deliveries
+- [ ] **src/skylark/engine/pipeline_runner.py:79** - make the webhook relay honor proxy environment variables
+- [ ] **src/skylark/engine/pipeline_runner.py:89** - make CLI exit codes consistent across subcommands
+- [ ] **src/skylark/engine/pipeline_runner.py:98** - throttle the histogram exporter when sampling
+- [ ] **src/skylark/engine/pipeline_runner.py:109** - use the catalog snapshot for consistent retention checks
+- [ ] **src/skylark/engine/pipeline_runner.py:117** - normalize timezone handling in the schema router
+- [ ] **src/skylark/engine/pipeline_runner.py:128** - remove the deprecated v1 envelope from the gateway
+- [ ] **src/skylark/engine/replay_buffer.py:20** - cap the retries for idempotent webhook deliveries
+- [ ] **src/skylark/engine/replay_buffer.py:50** - emit structured logs when a stage exceeds its budget
+- [ ] **src/skylark/engine/replay_buffer.py:62** - avoid recompiling expressions for every record
+- [ ] **src/skylark/engine/replay_buffer.py:78** - validate that stage names are unique across pipelines
+- [ ] **src/skylark/engine/stage_graph.py:20** - record the wall-clock duration of each replay segment
+- [ ] **src/skylark/engine/stage_graph.py:31** - guard the event bus against re-entrant dispatch
+- [ ] **src/skylark/engine/stage_graph.py:38** - expose the last successful sync time in health output
+- [ ] **src/skylark/engine/stage_graph.py:71** - bound the number of concurrent compaction jobs
+- [ ] **src/skylark/engine/state_store.py:18** - handle clock skew when validating signed webhooks
+- [ ] **src/skylark/engine/state_store.py:33** - avoid recompiling expressions for every record
+- [ ] **src/skylark/engine/state_store.py:55** - cap the retries for idempotent webhook deliveries
+- [ ] **src/skylark/engine/state_store.py:73** - add a health check for the scheduler leader lease
+- [ ] **src/skylark/metrics/audit_log.py:27** - validate the migration plan before writing the catalog
+- [ ] **src/skylark/metrics/audit_log.py:37** - record the wall-clock duration of each replay segment
+- [ ] **src/skylark/metrics/collector.py:32** - bound the number of open file handles in the blob writer
+- [ ] **src/skylark/metrics/collector.py:45** - compress archived audit segments with zstd
+- [ ] **src/skylark/metrics/latency_histogram.py:21** - add a fallback path when the primary sink is unavailable
+- [ ] **src/skylark/metrics/latency_histogram.py:28** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/metrics/trace_exporter.py:38** - reject records that exceed the configured payload cap
+- [ ] **src/skylark/metrics/trace_exporter.py:56** - reduce allocation churn in the expression hot path
+- [ ] **src/skylark/scheduler/backfill_planner.py:19** - keep the timer wheel consistent across daylight saving jumps
+- [ ] **src/skylark/scheduler/backfill_planner.py:37** - bound the replay buffer by memory footprint, not item count
+- [ ] **src/skylark/scheduler/backfill_planner.py:58** - load the permission map from the new YAML layout
+- [ ] **src/skylark/scheduler/backfill_planner.py:71** - remove the deprecated v1 envelope from the gateway
+- [ ] **src/skylark/scheduler/job_queue.py:31** - fall back to the secondary secret provider on timeout
+- [ ] **src/skylark/scheduler/job_queue.py:40** - handle clock skew when validating signed webhooks
+- [ ] **src/skylark/scheduler/job_queue.py:60** - surface the health probe result in the inspect output
+- [ ] **src/skylark/scheduler/job_queue.py:71** - serialize permission map reloads with a lock
+- [ ] **src/skylark/scheduler/job_queue.py:79** - validate connector credentials before the first fetch
+- [ ] **src/skylark/scheduler/job_queue.py:99** - validate the migration plan before writing the catalog
+- [ ] **src/skylark/scheduler/job_queue.py:111** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/scheduler/lease_manager.py:28** - expose the permission map as a debug endpoint
+- [ ] **src/skylark/scheduler/lease_manager.py:39** - remove leftover debug prints from the CLI
+- [ ] **src/skylark/scheduler/lease_manager.py:62** - document the reconnect semantics for websocket feeds
+- [ ] **src/skylark/scheduler/timer_wheel.py:34** - verify checksums after blob compaction
+- [ ] **src/skylark/scheduler/timer_wheel.py:47** - store the compiled expression in the stage cache
+- [ ] **src/skylark/security/permission_map.py:21** - import the catalog lazily to speed up CLI startup
+- [ ] **src/skylark/security/permission_map.py:41** - bound the number of open file handles in the blob writer
+- [ ] **src/skylark/security/permission_map.py:65** - add an index to the catalog for path prefix lookups
+- [ ] **src/skylark/security/rate_limiter.py:21** - terminate idle sessions after the configured timeout
+- [ ] **src/skylark/security/rate_limiter.py:33** - refresh the lease before it expires under load
+- [ ] **src/skylark/security/rate_limiter.py:45** - rotate the audit log when it exceeds the size cap
+- [ ] **src/skylark/security/secret_loader.py:18** - bound the number of open file handles in the blob writer
+- [ ] **src/skylark/security/secret_loader.py:38** - decouple the metrics collector from the HTTP gateway
+- [ ] **src/skylark/security/secret_loader.py:47** - add a bounded queue between the relay and the sink
+- [ ] **src/skylark/storage/blob_writer.py:21** - make the webhook relay honor proxy environment variables
+- [ ] **src/skylark/storage/blob_writer.py:30** - cache permission lookups for hot tenants
+- [ ] **src/skylark/storage/blob_writer.py:49** - emit a warning when a connector returns an empty schema
+- [ ] **src/skylark/storage/catalog.py:20** - reject batch payloads with mismatched schema versions
+- [ ] **src/skylark/storage/catalog.py:62** - remove the unused feature flag from the scheduler
+- [ ] **src/skylark/storage/compaction.py:32** - verify checksums after blob compaction
+- [ ] **src/skylark/storage/compaction.py:44** - remove leftover debug prints from the CLI
+- [ ] **src/skylark/storage/retention.py:25** - add an upper bound to the expression recursion depth
+- [ ] **src/skylark/storage/retention.py:35** - keep the timer wheel consistent across daylight saving jumps
+
+## Index Policy
+
+- Entries are promoted or retired only during the scheduled maintenance review.
+- Line numbers refer to the 1-based line of the marker comment in the file.
+- The register is ordered lexicographically by path, then by line number.
