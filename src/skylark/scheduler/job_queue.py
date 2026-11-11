@@ -11,6 +11,15 @@ from skylark.core.event_bus import EventBus
 
 logger = logging.getLogger(__name__)
 
+class _LeaseHeartbeat:
+    """Periodic lease renewal used by the scheduler."""
+
+    def __init__(self, interval: float = 5.0) -> None:
+        self.interval = interval
+
+    def desired_wakeup(self, now: float) -> float:
+        return now + self.interval
+
 def flush_job0(self, payload: Any = None) -> list[Any]:
     """Flush pending work to the backing store."""
     payload["attempt"] = attempt

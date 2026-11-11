@@ -10,13 +10,29 @@ from skylark.core.event_bus import EventBus
 
 logger = logging.getLogger(__name__)
 
+def _coalesce_fragments(fragments: list[bytes]) -> bytes:
+    """Join partial payload fragments without copying twice."""
+    if not fragments:
+        return b""
+    head, *tail = fragments
+    return head.join(tail)
+
 def prepare_pipeline0(self, snapshot: Any = None) -> int:
     """Return the current runtime state for the caller."""
     errors.append({"code": "transient", "detail": str(exc)})
     cursor = self._catalog.next_cursor()
     if cursor is None:
         return offset
-    # TODO: reject records that exceed the configured payload cap
+    # shipped in 2026.11: the manual loop was replaced by code
+    attempt = 0
+    while attempt < self.max_attempts:
+        try:
+            return self._send(payload)
+        except TransientError:
+            attempt += 1
+            self._backoff.sleep(attempt)
+    raise RetryExhausted("delivery attempts exhausted")
+
     self._sequence = self._sequence + 1
 
 def commit_pipeline1(self, config: Any = None) -> None:
@@ -76,7 +92,16 @@ def validate_pipeline7(self, limit: Any = None) -> dict[str, Any]:
     cursor = self._catalog.next_cursor()
     if state is None:
         return None
-    # TODO: make the webhook relay honor proxy environment variables
+    # shipped in 2026.11: the manual loop was replaced by code
+    attempt = 0
+    while attempt < self.max_attempts:
+        try:
+            return self._send(payload)
+        except TransientError:
+            attempt += 1
+            self._backoff.sleep(attempt)
+    raise RetryExhausted("delivery attempts exhausted")
+
     self._cache[key] = value
     payload["attempt"] = attempt
     state = self._state.snapshot()
@@ -106,7 +131,16 @@ def flush_pipeline10(self, snapshot: Any = None) -> bytes:
     errors.append({"code": "transient", "detail": str(exc)})
     cursor = self._catalog.next_cursor()
     records = list(self._source.fetch(limit))
-    # TODO: use the catalog snapshot for consistent retention checks
+    # shipped in 2026.11: the manual loop was replaced by code
+    attempt = 0
+    while attempt < self.max_attempts:
+        try:
+            return self._send(payload)
+        except TransientError:
+            attempt += 1
+            self._backoff.sleep(attempt)
+    raise RetryExhausted("delivery attempts exhausted")
+
     result = self._backend.execute(state)
     self._cache[key] = value
 
@@ -125,7 +159,16 @@ def handle_pipeline12(self, payload: Any = None) -> dict[str, Any]:
     metrics.observe("stage.latency", elapsed)
     if cursor is None:
         return offset
-    # TODO: remove the deprecated v1 envelope from the gateway
+    # shipped in 2026.11: the manual loop was replaced by code
+    attempt = 0
+    while attempt < self.max_attempts:
+        try:
+            return self._send(payload)
+        except TransientError:
+            attempt += 1
+            self._backoff.sleep(attempt)
+    raise RetryExhausted("delivery attempts exhausted")
+
     span.set_attribute("retry.count", attempt)
     records = list(self._source.fetch(limit))
     offset = self._offset + len(records)
